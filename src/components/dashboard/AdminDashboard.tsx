@@ -1,7 +1,6 @@
 
-import { useState } from 'react';
 import { StatsCard } from '../ui/StatsCard';
-import { Users, FileText, Settings, BarChart3 } from 'lucide-react';
+import { Users, FileText, Settings, Shield } from 'lucide-react';
 
 interface AdminDashboardProps {
   currentView: string;
@@ -9,89 +8,80 @@ interface AdminDashboardProps {
 }
 
 export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardProps) => {
-  if (currentView !== 'dashboard') {
-    return (
-      <div className="text-center py-8">
-        <h2 className="text-xl text-gray-600">Admin Feature - {currentView}</h2>
-        <p className="text-gray-500 mt-2">This feature is under development</p>
-        <button
-          onClick={() => setCurrentView('dashboard')}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Back to Dashboard
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+          System Settings
+        </button>
       </div>
 
+      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="Total Users"
-          value="156"
+          value="245"
           icon={Users}
           color="blue"
         />
         <StatsCard
-          title="Total Courses"
-          value="42"
+          title="Active Courses"
+          value="68"
           icon={FileText}
           color="green"
         />
         <StatsCard
           title="System Health"
-          value="99%"
-          icon={BarChart3}
+          value="99.9%"
+          icon={Shield}
           color="purple"
         />
         <StatsCard
-          title="Active Sessions"
-          value="23"
+          title="Configurations"
+          value="12"
           icon={Settings}
-          color="yellow"
+          color="gray"
         />
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button
-            onClick={() => setCurrentView('users')}
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
-          >
-            <Users className="w-6 h-6 text-blue-600 mb-2" />
-            <h4 className="font-medium">User Management</h4>
-            <p className="text-sm text-gray-500">Manage system users and permissions</p>
-          </button>
-          
-          <button
-            onClick={() => setCurrentView('courses')}
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
-          >
-            <FileText className="w-6 h-6 text-green-600 mb-2" />
-            <h4 className="font-medium">Course Management</h4>
-            <p className="text-sm text-gray-500">Create and manage training courses</p>
-          </button>
-          
-          <button
-            onClick={() => setCurrentView('settings')}
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
-          >
-            <Settings className="w-6 h-6 text-purple-600 mb-2" />
-            <h4 className="font-medium">System Settings</h4>
-            <p className="text-sm text-gray-500">Configure system preferences</p>
-          </button>
-          
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
-            <BarChart3 className="w-6 h-6 text-red-600 mb-2" />
-            <h4 className="font-medium">Analytics</h4>
-            <p className="text-sm text-gray-500">View system analytics and reports</p>
-          </button>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* System Overview */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">System Overview</h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+              <span className="font-medium text-gray-900">Database Status</span>
+              <span className="text-green-600 font-medium">Healthy</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+              <span className="font-medium text-gray-900">Email Service</span>
+              <span className="text-blue-600 font-medium">Active</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+              <span className="font-medium text-gray-900">SSO Integration</span>
+              <span className="text-purple-600 font-medium">Connected</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activities */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activities</h3>
+          <div className="space-y-3 text-sm">
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span>New user registered: alice.johnson@company.com</span>
+            </div>
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>Course "Data Science 101" published</span>
+            </div>
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span>System backup completed successfully</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

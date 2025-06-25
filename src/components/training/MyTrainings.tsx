@@ -1,100 +1,153 @@
 
-import { useState } from 'react';
-import { ArrowLeft, Calendar, Clock, MapPin } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 
 interface MyTrainingsProps {
   onBack: () => void;
 }
 
 export const MyTrainings = ({ onBack }: MyTrainingsProps) => {
-  const [trainings] = useState([
+  const attendingTrainings = [
     {
       id: 1,
       title: 'React Advanced Workshop',
       date: '2024-06-28',
-      time: '10:00 AM',
-      location: 'Conference Room A',
+      time: '10:00 AM - 2:00 PM',
+      trainer: 'John Smith',
       status: 'upcoming',
-      trainer: 'John Smith'
+      type: 'attending'
     },
     {
       id: 2,
       title: 'DevOps Fundamentals',
       date: '2024-07-02',
-      time: '2:00 PM',
-      location: 'Virtual',
+      time: '2:00 PM - 5:00 PM',
+      trainer: 'Sarah Wilson',
       status: 'upcoming',
-      trainer: 'Sarah Johnson'
-    },
+      type: 'attending'
+    }
+  ];
+
+  const trainerAssignments = [
     {
       id: 3,
-      title: 'Project Management Basics',
-      date: '2024-05-15',
-      time: '9:00 AM',
-      location: 'Training Room B',
-      status: 'completed',
-      trainer: 'Mike Davis'
+      title: 'JavaScript Basics for Beginners',
+      date: '2024-07-05',
+      time: '9:00 AM - 12:00 PM',
+      participants: 12,
+      status: 'assigned',
+      type: 'training'
     }
-  ]);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'upcoming':
-        return 'text-blue-600 bg-blue-100';
-      case 'completed':
-        return 'text-green-600 bg-green-100';
-      case 'cancelled':
-        return 'text-red-600 bg-red-100';
-      default:
-        return 'text-gray-600 bg-gray-100';
-    }
-  };
+  ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center space-x-4">
+    <div className="max-w-6xl mx-auto">
+      <div className="flex items-center space-x-4 mb-6">
         <button
           onClick={onBack}
-          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Dashboard</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">My Trainings</h2>
-        
-        <div className="space-y-4">
-          {trainings.map((training) => (
-            <div key={training.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900">{training.title}</h3>
-                  <p className="text-sm text-gray-600 mt-1">Trainer: {training.trainer}</p>
-                  
-                  <div className="flex items-center space-x-4 mt-3 text-sm text-gray-500">
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{training.date}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{training.time}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <MapPin className="w-4 h-4" />
-                      <span>{training.location}</span>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">My Trainings</h2>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Trainings I'm Attending */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+            Trainings I'm Attending
+          </h3>
+          <div className="space-y-4">
+            {attendingTrainings.map((training) => (
+              <div key={training.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900 mb-2">{training.title}</h4>
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {training.date}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-4 h-4 mr-2" />
+                        {training.time}
+                      </div>
+                      <div className="flex items-center">
+                        <User className="w-4 h-4 mr-2" />
+                        Trainer: {training.trainer}
+                      </div>
                     </div>
                   </div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                    Upcoming
+                  </span>
                 </div>
-                
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(training.status)}`}>
-                  {training.status.charAt(0).toUpperCase() + training.status.slice(1)}
-                </span>
+                <div className="mt-4 flex space-x-2">
+                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    View Details
+                  </button>
+                  <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+                    Add to Calendar
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Trainings I'm Conducting */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <User className="w-5 h-5 mr-2 text-green-600" />
+            Trainings I'm Conducting
+          </h3>
+          <div className="space-y-4">
+            {trainerAssignments.map((training) => (
+              <div key={training.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900 mb-2">{training.title}</h4>
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {training.date}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-4 h-4 mr-2" />
+                        {training.time}
+                      </div>
+                      <div className="flex items-center">
+                        <User className="w-4 h-4 mr-2" />
+                        {training.participants} participants
+                      </div>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                    Assigned
+                  </span>
+                </div>
+                <div className="mt-4 flex space-x-2">
+                  <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+                    Prepare Content
+                  </button>
+                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    View Participants
+                  </button>
+                </div>
+              </div>
+            ))}
+            
+            {trainerAssignments.length === 0 && (
+              <div className="text-center py-8 text-gray-500">
+                <User className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>No training assignments yet</p>
+                <p className="text-sm">You'll see trainings here when L&D assigns you as a trainer</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
