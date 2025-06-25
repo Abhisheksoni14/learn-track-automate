@@ -1,8 +1,8 @@
-
 import { useState } from 'react';
 import { StatsCard } from '../ui/StatsCard';
 import { TrainingRequestForm } from '../forms/TrainingRequestForm';
 import { MyTrainings } from '../training/MyTrainings';
+import { NotificationsList } from '../notifications/NotificationsList';
 import { Calendar, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 
 interface EmployeeDashboardProps {
@@ -53,6 +53,10 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }: EmployeeDashb
 
   if (currentView === 'mytrainings') {
     return <MyTrainings onBack={() => setCurrentView('dashboard')} />;
+  }
+
+  if (currentView === 'notifications') {
+    return <NotificationsList onBack={() => setCurrentView('dashboard')} />;
   }
 
   return (
