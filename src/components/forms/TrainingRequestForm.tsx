@@ -8,221 +8,143 @@ interface TrainingRequestFormProps {
 
 export const TrainingRequestForm = ({ onBack }: TrainingRequestFormProps) => {
   const [formData, setFormData] = useState({
-    trainingTitle: '',
-    department: '',
-    trainingType: 'technical',
-    priority: 'medium',
-    expectedParticipants: '',
-    duration: '',
-    preferredDate: '',
+    title: '',
     description: '',
-    businessJustification: '',
-    budget: ''
+    justification: '',
+    preferredDate: '',
+    duration: '',
+    budget: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Training request submitted:', formData);
-    // Here you would typically send the data to your backend
-    alert('Training request submitted successfully!');
-    onBack();
+    // Here you would typically call the API to submit the request
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
       [e.target.name]: e.target.value
-    });
+    }));
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex items-center space-x-4 mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center space-x-4">
         <button
           onClick={onBack}
-          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Dashboard</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Submit Training Request</h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Training Title *
-              </label>
-              <input
-                type="text"
-                name="trainingTitle"
-                value={formData.trainingTitle}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter training title"
-              />
-            </div>
+          <div>
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              Training Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Department/COE *
-              </label>
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">Select Department</option>
-                <option value="engineering">Engineering</option>
-                <option value="product">Product</option>
-                <option value="design">Design</option>
-                <option value="marketing">Marketing</option>
-                <option value="sales">Sales</option>
-                <option value="hr">Human Resources</option>
-              </select>
-            </div>
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Training Type *
-              </label>
-              <select
-                name="trainingType"
-                value={formData.trainingType}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="technical">Technical</option>
-                <option value="non-technical">Non-Technical</option>
-                <option value="leadership">Leadership</option>
-                <option value="compliance">Compliance</option>
-              </select>
-            </div>
+          <div>
+            <label htmlFor="justification" className="block text-sm font-medium text-gray-700 mb-2">
+              Business Justification
+            </label>
+            <textarea
+              id="justification"
+              name="justification"
+              value={formData.justification}
+              onChange={handleChange}
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Priority Level *
-              </label>
-              <select
-                name="priority"
-                value={formData.priority}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="critical">Critical</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Expected Participants *
-              </label>
-              <input
-                type="number"
-                name="expectedParticipants"
-                value={formData.expectedParticipants}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Number of participants"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Duration (hours) *
-              </label>
-              <input
-                type="number"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Duration in hours"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Preferred Start Date
+              <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700 mb-2">
+                Preferred Date
               </label>
               <input
                 type="date"
+                id="preferredDate"
                 name="preferredDate"
                 value={formData.preferredDate}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+                Duration (hours)
+              </label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">
                 Estimated Budget
               </label>
               <input
                 type="number"
+                id="budget"
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Budget in USD"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Training Description *
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Describe the training content, objectives, and expected outcomes"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Business Justification *
-            </label>
-            <textarea
-              name="businessJustification"
-              value={formData.businessJustification}
-              onChange={handleChange}
-              required
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Explain how this training will benefit the business and team"
-            />
-          </div>
-
-          <div className="flex justify-end space-x-4 pt-6">
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={onBack}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
               Submit Request
             </button>
