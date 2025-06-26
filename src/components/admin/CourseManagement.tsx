@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { BookOpen, Search, Plus, Edit, Trash2, Users } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -30,7 +29,7 @@ export const CourseManagement = () => {
     instructor: '',
     duration: '',
     description: '',
-    status: 'Draft' as const
+    status: 'Draft' as 'Draft' | 'Published'
   });
   const { toast } = useToast();
 
