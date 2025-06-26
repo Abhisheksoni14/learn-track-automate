@@ -24,20 +24,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-slate-900">
+    <div className="min-h-screen flex bg-slate-50">
       <ModernSidebar 
         currentRole={currentRole} 
         currentView={currentView} 
         setCurrentView={setCurrentView} 
       />
-      <div className="flex-1 flex flex-col ml-64">
+      <div className="flex-1 flex flex-col ml-56">
         <ModernHeader 
           currentRole={currentRole} 
           setCurrentRole={setCurrentRole}
           setCurrentView={setCurrentView}
         />
         <main className="flex-1 p-6 overflow-auto">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {renderDashboard()}
           </div>
         </main>
