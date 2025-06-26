@@ -1,10 +1,10 @@
 
-import { StatsCard } from '../ui/StatsCard';
+import { MetricWidget } from '../ui/MetricWidget';
 import { ManageRequests } from '../ld/ManageRequests';
 import { InviteTrainers } from '../ld/InviteTrainers';
 import { TrainingCalendar } from '../ld/TrainingCalendar';
 import { Reports } from '../ld/Reports';
-import { FileText, Users, Calendar, CheckCircle } from 'lucide-react';
+import { FileText, Users, Calendar, CheckCircle, TrendingUp, Brain } from 'lucide-react';
 
 interface LDDashboardProps {
   currentView: string;
@@ -29,103 +29,160 @@ export const LDDashboard = ({ currentView, setCurrentView }: LDDashboardProps) =
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">L&D Dashboard</h1>
-        <div className="flex space-x-3">
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            L&D Command Center
+          </h1>
+          <p className="text-slate-400 text-lg">Orchestrate learning experiences across the neural network</p>
+        </div>
+        <div className="flex space-x-4">
           <button
             onClick={() => setCurrentView('requests')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="neon-button"
           >
-            Manage Requests
+            Process Requests
           </button>
           <button
             onClick={() => setCurrentView('trainers')}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105"
+            style={{ boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)' }}
           >
-            Invite Trainers
+            Neural Network
           </button>
         </div>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          title="Pending Requests"
+      {/* Metric Widgets */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <MetricWidget
+          title="Queue Status"
           value="15"
           icon={FileText}
+          trend="+3"
+          trendDirection="up"
           color="yellow"
         />
-        <StatsCard
-          title="Active Trainers"
+        <MetricWidget
+          title="Active Neural Guides"
           value="28"
           icon={Users}
+          trend="+5"
+          trendDirection="up"
           color="blue"
         />
-        <StatsCard
-          title="Scheduled Sessions"
+        <MetricWidget
+          title="Live Sessions"
           value="12"
           icon={Calendar}
+          trend="+2"
+          trendDirection="up"
           color="green"
         />
-        <StatsCard
-          title="Completed This Month"
+        <MetricWidget
+          title="Monthly Completions"
           value="34"
           icon={CheckCircle}
+          trend="+18%"
+          trendDirection="up"
           color="purple"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Requests */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Training Requests</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
-              <div>
-                <h4 className="font-medium text-gray-900">Machine Learning Basics</h4>
-                <p className="text-sm text-gray-500">Requested by John Doe - Engineering</p>
-              </div>
-              <span className="px-3 py-1 rounded-full text-xs font-medium text-yellow-600 bg-yellow-100">
-                Pending Review
-              </span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Neural Request Analysis */}
+        <div className="neon-card p-8">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+              <Brain className="w-6 h-6 text-white" />
             </div>
-            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-              <div>
-                <h4 className="font-medium text-gray-900">Leadership Workshop</h4>
-                <p className="text-sm text-gray-500">Requested by Sarah Smith - Management</p>
+            <h3 className="text-2xl font-bold text-white">Neural Request Analysis</h3>
+          </div>
+          <div className="space-y-4">
+            <div className="glass-panel p-6 hover:scale-105 transition-all duration-300 border-l-4 border-yellow-500">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h4 className="font-bold text-white text-lg">Machine Learning Neural Path</h4>
+                  <p className="text-slate-400">Initiated by John Doe - Engineering Sector</p>
+                </div>
+                <span className="px-4 py-2 rounded-xl text-sm font-bold text-yellow-400 bg-yellow-500/20 border border-yellow-500/30">
+                  Neural Processing
+                </span>
               </div>
-              <span className="px-3 py-1 rounded-full text-xs font-medium text-blue-600 bg-blue-100">
-                Tech Approved
-              </span>
+              <div className="flex items-center space-x-2 text-sm text-slate-400">
+                <TrendingUp className="w-4 h-4" />
+                <span>Priority Level: High Neural Impact</span>
+              </div>
+            </div>
+            
+            <div className="glass-panel p-6 hover:scale-105 transition-all duration-300 border-l-4 border-blue-500">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h4 className="font-bold text-white text-lg">Leadership Neural Enhancement</h4>
+                  <p className="text-slate-400">Initiated by Sarah Smith - Command Division</p>
+                </div>
+                <span className="px-4 py-2 rounded-xl text-sm font-bold text-blue-400 bg-blue-500/20 border border-blue-500/30">
+                  Tech Neural Approved
+                </span>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-slate-400">
+                <CheckCircle className="w-4 h-4" />
+                <span>Ready for Neural Implementation</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="space-y-3">
+        {/* Command Operations */}
+        <div className="neon-card p-8">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold text-white">Neural Command Operations</h3>
+          </div>
+          <div className="space-y-4">
             <button
               onClick={() => setCurrentView('requests')}
-              className="w-full flex items-center justify-between p-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+              className="w-full glass-panel p-6 text-left hover:scale-105 transition-all duration-300 hover:bg-slate-700/20"
             >
-              <span className="font-medium text-gray-900">Review Training Requests</span>
-              <span className="text-sm text-blue-600">15 pending</span>
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-white text-lg">Process Neural Requests</span>
+                  <p className="text-slate-400 mt-1">15 requests awaiting neural analysis</p>
+                </div>
+                <div className="text-yellow-400 bg-yellow-500/20 px-3 py-1 rounded-full text-sm font-bold border border-yellow-500/30">
+                  15 pending
+                </div>
+              </div>
             </button>
+            
             <button
               onClick={() => setCurrentView('calendar')}
-              className="w-full flex items-center justify-between p-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+              className="w-full glass-panel p-6 text-left hover:scale-105 transition-all duration-300 hover:bg-slate-700/20"
             >
-              <span className="font-medium text-gray-900">Schedule New Session</span>
-              <Calendar className="w-5 h-5 text-gray-400" />
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-white text-lg">Neural Schedule Matrix</span>
+                  <p className="text-slate-400 mt-1">Coordinate learning experiences</p>
+                </div>
+                <Calendar className="w-6 h-6 text-slate-400" />
+              </div>
             </button>
+            
             <button
               onClick={() => setCurrentView('reports')}
-              className="w-full flex items-center justify-between p-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+              className="w-full glass-panel p-6 text-left hover:scale-105 transition-all duration-300 hover:bg-slate-700/20"
             >
-              <span className="font-medium text-gray-900">Generate Reports</span>
-              <FileText className="w-5 h-5 text-gray-400" />
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-white text-lg">Neural Analytics Hub</span>
+                  <p className="text-slate-400 mt-1">Generate intelligence reports</p>
+                </div>
+                <FileText className="w-6 h-6 text-slate-400" />
+              </div>
             </button>
           </div>
         </div>

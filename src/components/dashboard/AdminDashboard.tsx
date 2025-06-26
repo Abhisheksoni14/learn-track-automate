@@ -1,6 +1,6 @@
 
-import { StatsCard } from '../ui/StatsCard';
-import { Users, FileText, Settings, Shield } from 'lucide-react';
+import { MetricWidget } from '../ui/MetricWidget';
+import { Users, FileText, Settings, Shield, Server, Database, Activity } from 'lucide-react';
 import { UserManagement } from '../admin/UserManagement';
 import { CourseManagement } from '../admin/CourseManagement';
 import { SystemSettings } from '../admin/SystemSettings';
@@ -22,69 +22,130 @@ export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardPr
       default:
         return (
           <>
-            {/* Statistics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatsCard
-                title="Total Users"
+            {/* Metric Widgets */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <MetricWidget
+                title="Neural Network Users"
                 value="245"
                 icon={Users}
+                trend="+12"
+                trendDirection="up"
                 color="blue"
               />
-              <StatsCard
-                title="Active Courses"
+              <MetricWidget
+                title="Active Neural Paths"
                 value="68"
                 icon={FileText}
+                trend="+8"
+                trendDirection="up"
                 color="green"
               />
-              <StatsCard
-                title="System Health"
+              <MetricWidget
+                title="System Neural Health"
                 value="99.9%"
                 icon={Shield}
+                trend="0.1%"
+                trendDirection="up"
                 color="purple"
               />
-              <StatsCard
-                title="Configurations"
+              <MetricWidget
+                title="Neural Configurations"
                 value="12"
                 icon={Settings}
-                color="gray"
+                trend="+2"
+                trendDirection="up"
+                color="orange"
               />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* System Overview */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">System Overview</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* System Neural Matrix */}
+              <div className="neon-card p-8">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                    <Server className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white">System Neural Matrix</h3>
+                </div>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                    <span className="font-medium text-gray-900">Database Status</span>
-                    <span className="text-green-600 font-medium">Healthy</span>
+                  <div className="glass-panel p-6 hover:scale-105 transition-all duration-300 border-l-4 border-green-500">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white text-lg">Neural Database Core</span>
+                        <p className="text-slate-400 mt-1">Primary data matrix operational</p>
+                      </div>
+                      <span className="text-green-400 font-bold bg-green-500/20 px-3 py-1 rounded-full text-sm border border-green-500/30">
+                        OPTIMAL
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                    <span className="font-medium text-gray-900">Email Service</span>
-                    <span className="text-blue-600 font-medium">Active</span>
+                  
+                  <div className="glass-panel p-6 hover:scale-105 transition-all duration-300 border-l-4 border-blue-500">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white text-lg">Communication Neural Net</span>
+                        <p className="text-slate-400 mt-1">Message relay systems active</p>
+                      </div>
+                      <span className="text-blue-400 font-bold bg-blue-500/20 px-3 py-1 rounded-full text-sm border border-blue-500/30">
+                        ACTIVE
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                    <span className="font-medium text-gray-900">SSO Integration</span>
-                    <span className="text-purple-600 font-medium">Connected</span>
+                  
+                  <div className="glass-panel p-6 hover:scale-105 transition-all duration-300 border-l-4 border-purple-500">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white text-lg">SSO Neural Gateway</span>
+                        <p className="text-slate-400 mt-1">Authentication matrix synchronized</p>
+                      </div>
+                      <span className="text-purple-400 font-bold bg-purple-500/20 px-3 py-1 rounded-full text-sm border border-purple-500/30">
+                        SYNCED
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Recent Activities */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activities</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span>New user registered: alice.johnson@company.com</span>
+              {/* Neural Activity Stream */}
+              <div className="neon-card p-8">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+                    <Activity className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>Course "Data Science 101" published</span>
+                  <h3 className="text-2xl font-bold text-white">Neural Activity Stream</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="glass-panel p-4 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full pulse-glow"></div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">New neural entity registered</p>
+                        <p className="text-slate-400 text-sm">alice.johnson@company.com joined the network</p>
+                      </div>
+                      <span className="text-xs text-slate-500">2m ago</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    <span>System backup completed successfully</span>
+                  
+                  <div className="glass-panel p-4 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-3 h-3 bg-green-500 rounded-full pulse-glow"></div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">Neural path "Data Science 101" activated</p>
+                        <p className="text-slate-400 text-sm">New learning module published to network</p>
+                      </div>
+                      <span className="text-xs text-slate-500">5m ago</span>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-panel p-4 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full pulse-glow"></div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">System neural backup completed</p>
+                        <p className="text-slate-400 text-sm">Data integrity matrix verified successfully</p>
+                      </div>
+                      <span className="text-xs text-slate-500">15m ago</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -95,14 +156,20 @@ export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardPr
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            System Control Matrix
+          </h1>
+          <p className="text-slate-400 text-lg">Master control for the neural learning ecosystem</p>
+        </div>
         <button 
           onClick={() => setCurrentView('settings')}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+          className="px-8 py-4 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-500 hover:to-pink-500 text-white font-semibold rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105"
+          style={{ boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)' }}
         >
-          System Settings
+          Neural System Config
         </button>
       </div>
 

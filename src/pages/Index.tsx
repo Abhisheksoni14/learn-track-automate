@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { Sidebar } from '../components/layout/Sidebar';
-import { Header } from '../components/layout/Header';
+import { ModernSidebar } from '../components/layout/ModernSidebar';
+import { ModernHeader } from '../components/layout/ModernHeader';
 import { EmployeeDashboard } from '../components/dashboard/EmployeeDashboard';
 import { LDDashboard } from '../components/dashboard/LDDashboard';
 import { AdminDashboard } from '../components/dashboard/AdminDashboard';
@@ -24,20 +24,22 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar 
+    <div className="min-h-screen flex bg-slate-900">
+      <ModernSidebar 
         currentRole={currentRole} 
         currentView={currentView} 
         setCurrentView={setCurrentView} 
       />
-      <div className="flex-1 flex flex-col">
-        <Header 
+      <div className="flex-1 flex flex-col ml-80">
+        <ModernHeader 
           currentRole={currentRole} 
           setCurrentRole={setCurrentRole}
           setCurrentView={setCurrentView}
         />
-        <main className="flex-1 p-6">
-          {renderDashboard()}
+        <main className="flex-1 p-8 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            {renderDashboard()}
+          </div>
         </main>
       </div>
     </div>
