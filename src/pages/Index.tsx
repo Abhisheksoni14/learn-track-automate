@@ -30,14 +30,14 @@ const Index = () => {
         currentView={currentView} 
         setCurrentView={setCurrentView} 
       />
-      <div className="flex-1 flex flex-col ml-80">
+      <div className="flex-1 flex flex-col ml-64">
         <ModernHeader 
           currentRole={currentRole} 
           setCurrentRole={setCurrentRole}
           setCurrentView={setCurrentView}
         />
-        <main className="flex-1 p-8 overflow-auto">
-          <div className="max-w-7xl mx-auto">
+        <main className="flex-1 p-6 overflow-auto">
+          <div className="max-w-6xl mx-auto">
             {renderDashboard()}
           </div>
         </main>

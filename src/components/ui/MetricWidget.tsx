@@ -75,7 +75,7 @@ export const MetricWidget = ({
   const colors = getColorClasses(color);
 
   return (
-    <div className={`metric-widget bg-gradient-to-br ${colors.gradient} ${colors.glow} shadow-2xl float-animation`}>
+    <div className={`metric-widget bg-gradient-to-br ${colors.gradient} ${colors.glow} shadow-xl float-animation hover:scale-105 transition-all duration-300`}>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
@@ -83,17 +83,17 @@ export const MetricWidget = ({
       
       {/* Content */}
       <div className="relative z-10">
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex-1">
-            <p className="text-slate-400 text-sm font-medium mb-2 uppercase tracking-wider">
+            <p className="text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
               {title}
             </p>
-            <div className="flex items-baseline space-x-2">
-              <h3 className="text-4xl font-bold text-white tracking-tight">
+            <div className="flex items-baseline space-x-2 mb-2">
+              <h3 className="text-2xl font-bold text-white tracking-tight">
                 {value}
               </h3>
               {trend && (
-                <span className={`text-sm font-medium px-2 py-1 rounded-full ${
+                <span className={`text-xs font-medium px-2 py-1 rounded-full ${
                   trendDirection === 'up' 
                     ? 'text-green-400 bg-green-500/20' 
                     : 'text-red-400 bg-red-500/20'
@@ -104,13 +104,13 @@ export const MetricWidget = ({
             </div>
           </div>
           
-          <div className={`w-20 h-20 rounded-2xl flex items-center justify-center bg-gradient-to-br ${colors.iconBg} shadow-xl pulse-glow`}>
-            <Icon className="w-10 h-10 text-white" />
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${colors.iconBg} shadow-lg pulse-glow`}>
+            <Icon className="w-5 h-5 text-white" />
           </div>
         </div>
         
         {/* Bottom Accent Line */}
-        <div className={`h-1 rounded-full bg-gradient-to-r ${colors.iconBg} opacity-60`}></div>
+        <div className={`h-0.5 rounded-full bg-gradient-to-r ${colors.iconBg} opacity-60`}></div>
       </div>
     </div>
   );

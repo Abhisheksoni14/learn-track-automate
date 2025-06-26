@@ -16,7 +16,7 @@
     --popover: 20 25 35;
     --popover-foreground: 248 250 252;
 
-    --primary: 59 130 246;
+    --primary: 16 185 129;
     --primary-foreground: 255 255 255;
 
     --secondary: 30 41 59;
@@ -25,7 +25,7 @@
     --muted: 15 23 42;
     --muted-foreground: 148 163 184;
 
-    --accent: 251 146 60;
+    --accent: 20 184 166;
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
@@ -33,18 +33,18 @@
 
     --border: 51 65 85;
     --input: 51 65 85;
-    --ring: 59 130 246;
+    --ring: 16 185 129;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 8 12 18;
     --sidebar-foreground: 203 213 225;
-    --sidebar-primary: 59 130 246;
+    --sidebar-primary: 16 185 129;
     --sidebar-primary-foreground: 255 255 255;
     --sidebar-accent: 15 23 42;
     --sidebar-accent-foreground: 203 213 225;
     --sidebar-border: 30 41 59;
-    --sidebar-ring: 59 130 246;
+    --sidebar-ring: 16 185 129;
   }
 
   .dark {
@@ -57,7 +57,7 @@
     --popover: 20 25 35;
     --popover-foreground: 248 250 252;
 
-    --primary: 59 130 246;
+    --primary: 16 185 129;
     --primary-foreground: 255 255 255;
 
     --secondary: 30 41 59;
@@ -66,7 +66,7 @@
     --muted: 15 23 42;
     --muted-foreground: 148 163 184;
 
-    --accent: 251 146 60;
+    --accent: 20 184 166;
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
@@ -74,16 +74,16 @@
 
     --border: 51 65 85;
     --input: 51 65 85;
-    --ring: 59 130 246;
+    --ring: 16 185 129;
 
     --sidebar-background: 8 12 18;
     --sidebar-foreground: 203 213 225;
-    --sidebar-primary: 59 130 246;
+    --sidebar-primary: 16 185 129;
     --sidebar-primary-foreground: 255 255 255;
     --sidebar-accent: 15 23 42;
     --sidebar-accent-foreground: 203 213 225;
     --sidebar-border: 30 41 59;
-    --sidebar-ring: 59 130 246;
+    --sidebar-ring: 16 185 129;
   }
 }
 
@@ -99,7 +99,7 @@
 
   /* Custom gradient backgrounds */
   .neon-gradient {
-    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500;
+    @apply bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500;
   }
 
   .dark-card {
@@ -107,32 +107,32 @@
   }
 
   .glow-effect {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 40px rgba(16, 185, 129, 0.1);
   }
 }
 
 /* Custom component styles */
 @layer components {
   .neon-card {
-    @apply bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl;
+    @apply bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-xl;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-panel {
-    @apply bg-slate-800/40 backdrop-blur-2xl border border-slate-600/30 rounded-3xl;
+    @apply bg-slate-800/40 backdrop-blur-2xl border border-slate-600/30 rounded-xl;
   }
 
   .neon-button {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold px-8 py-4 rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105;
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    @apply bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold px-6 py-3 rounded-xl shadow-xl transition-all duration-300 hover:scale-105;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
   }
 
   .neon-input {
-    @apply bg-slate-800/60 backdrop-blur-xl border-2 border-slate-600 focus:border-blue-400 rounded-2xl px-6 py-4 transition-all duration-300 focus:ring-4 focus:ring-blue-500/20;
+    @apply bg-slate-800/60 backdrop-blur-xl border-2 border-slate-600 focus:border-emerald-400 rounded-xl px-4 py-3 transition-all duration-300 focus:ring-4 focus:ring-emerald-500/20;
   }
 
   .metric-widget {
-    @apply relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:scale-105;
+    @apply relative overflow-hidden rounded-xl p-6 transition-all duration-500;
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(148, 163, 184, 0.2);
@@ -147,12 +147,12 @@
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+  0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); }
 }
 
 .float-animation {
