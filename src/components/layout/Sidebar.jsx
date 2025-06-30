@@ -2,13 +2,7 @@
 import { Calendar, FileText, Users, Settings, BarChart3, Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface SidebarProps {
-  currentRole: 'employee' | 'ld' | 'admin';
-  currentView: string;
-  setCurrentView: (view: string) => void;
-}
-
-export const Sidebar = ({ currentRole, currentView, setCurrentView }: SidebarProps) => {
+export const Sidebar = ({ currentRole, currentView, setCurrentView }) => {
   const getMenuItems = () => {
     switch (currentRole) {
       case 'employee':

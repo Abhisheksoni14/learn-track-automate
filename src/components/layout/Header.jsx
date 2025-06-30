@@ -1,12 +1,6 @@
 
-interface HeaderProps {
-  currentRole: 'employee' | 'ld' | 'admin';
-  setCurrentRole: (role: 'employee' | 'ld' | 'admin') => void;
-  setCurrentView: (view: string) => void;
-}
-
-export const Header = ({ currentRole, setCurrentRole, setCurrentView }: HeaderProps) => {
-  const getRoleDisplayName = (role: string) => {
+export const Header = ({ currentRole, setCurrentRole, setCurrentView }) => {
+  const getRoleDisplayName = (role) => {
     switch (role) {
       case 'employee':
         return 'Employee Portal';
@@ -19,7 +13,7 @@ export const Header = ({ currentRole, setCurrentRole, setCurrentView }: HeaderPr
     }
   };
 
-  const handleRoleSwitch = (newRole: 'employee' | 'ld' | 'admin') => {
+  const handleRoleSwitch = (newRole) => {
     setCurrentRole(newRole);
     setCurrentView('dashboard');
   };
@@ -35,9 +29,8 @@ export const Header = ({ currentRole, setCurrentRole, setCurrentView }: HeaderPr
         </div>
         
         <div className="flex items-center space-x-4">
-          {/* Role Switcher for Demo */}
           <div className="flex bg-gray-100 rounded-lg p-1">
-            {(['employee', 'ld', 'admin'] as const).map((role) => (
+            {['employee', 'ld', 'admin'].map((role) => (
               <button
                 key={role}
                 onClick={() => handleRoleSwitch(role)}

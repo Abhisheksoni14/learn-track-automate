@@ -1,15 +1,8 @@
 
 import { LucideIcon } from 'lucide-react';
 
-interface StatsCardProps {
-  title: string;
-  value: string;
-  icon: LucideIcon;
-  color: 'blue' | 'green' | 'yellow' | 'purple' | 'red' | 'gray';
-}
-
-export const StatsCard = ({ title, value, icon: Icon, color }: StatsCardProps) => {
-  const getGradientClasses = (color: string) => {
+export const StatsCard = ({ title, value, icon: Icon, color }) => {
+  const getGradientClasses = (color) => {
     switch (color) {
       case 'blue':
         return 'bg-gradient-to-br from-blue-500 to-cyan-600 shadow-blue-500/25';
@@ -26,7 +19,7 @@ export const StatsCard = ({ title, value, icon: Icon, color }: StatsCardProps) =
     }
   };
 
-  const getBgGradient = (color: string) => {
+  const getBgGradient = (color) => {
     switch (color) {
       case 'blue':
         return 'from-blue-50 to-cyan-50';

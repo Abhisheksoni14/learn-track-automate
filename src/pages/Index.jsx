@@ -7,7 +7,7 @@ import { LDDashboard } from '../components/dashboard/LDDashboard';
 import { AdminDashboard } from '../components/dashboard/AdminDashboard';
 
 const Index = () => {
-  const [currentRole, setCurrentRole] = useState<'employee' | 'ld' | 'admin'>('employee');
+  const [currentRole, setCurrentRole] = useState('employee');
   const [currentView, setCurrentView] = useState('dashboard');
 
   const renderDashboard = () => {

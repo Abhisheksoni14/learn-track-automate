@@ -5,12 +5,7 @@ import { UserManagement } from '../admin/UserManagement';
 import { CourseManagement } from '../admin/CourseManagement';
 import { SystemSettings } from '../admin/SystemSettings';
 
-interface AdminDashboardProps {
-  currentView: string;
-  setCurrentView: (view: string) => void;
-}
-
-export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardProps) => {
+export const AdminDashboard = ({ currentView, setCurrentView }) => {
   const renderContent = () => {
     switch (currentView) {
       case 'users':
@@ -22,7 +17,6 @@ export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardPr
       default:
         return (
           <>
-            {/* Statistics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
                 title="Total Users"
@@ -51,7 +45,6 @@ export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardPr
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* System Overview */}
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">System Overview</h3>
                 <div className="space-y-4">
@@ -70,7 +63,6 @@ export const AdminDashboard = ({ currentView, setCurrentView }: AdminDashboardPr
                 </div>
               </div>
 
-              {/* Recent Activities */}
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activities</h3>
                 <div className="space-y-3 text-sm">
