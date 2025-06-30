@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { StatsCard } from '../ui/StatsCard';
 import { FileText, Users, Calendar, TrendingUp } from 'lucide-react';
 

@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { StatsCard } from '../ui/StatsCard';
 import { Users, FileText, Settings, Shield } from 'lucide-react';
 import { UserManagement } from '../admin/UserManagement';
