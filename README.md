@@ -1,73 +1,168 @@
-# Welcome to your Lovable project
+# Learn Track Automate - Training Management System
 
-## Project info
+A modern training request management system with role-based access control for employees, L&D teams, and administrators.
 
-**URL**: https://lovable.dev/projects/4dde7c33-594f-4165-a5db-239ceeae63f6
+## Features
 
-## How can I edit this code?
+- 🔐 **Authentication System** - Secure login with JWT tokens
+- 👥 **Role-Based Access** - Employee, L&D Team, and Admin portals
+- 📊 **Dashboard Analytics** - Real-time statistics and insights
+- 🎨 **Modern UI** - Beautiful, responsive design with Tailwind CSS
+- 🔄 **Real-time Updates** - Live data synchronization
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+### Frontend
+- React 18
+- Vite
+- Tailwind CSS
+- Lucide React Icons
+- React Router DOM
+- React Query
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4dde7c33-594f-4165-a5db-239ceeae63f6) and start prompting.
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- bcryptjs for password hashing
+- CORS enabled
 
-Changes made via Lovable will be committed automatically to this repo.
+## Quick Start
 
-**Use your preferred IDE**
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Frontend Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Follow these steps:
+2. **Start development server:**
+   ```bash
+   npm run dev
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. **Open your browser:**
+   Navigate to `http://localhost:8080`
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Backend Setup
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. **Navigate to server directory:**
+   ```bash
+   cd server
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Create environment file:**
+   ```bash
+   cp env.example .env
+   ```
+
+4. **Start the server:**
+   ```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The API will be available at `http://localhost:5000`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Demo Credentials
 
-**Use GitHub Codespaces**
+### Employee Access
+- **Email:** employee@demo.com
+- **Password:** password123
+- **Role:** Employee
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### L&D Team Access
+- **Email:** ld@demo.com
+- **Password:** password123
+- **Role:** L&D Team
 
-## What technologies are used for this project?
+### Admin Access
+- **Email:** admin@demo.com
+- **Password:** password123
+- **Role:** Admin
 
-This project is built with:
+## API Endpoints
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Authentication
+- `POST /api/auth/login` - User login
+- `GET /api/auth/verify` - Verify JWT token
+- `GET /api/user/profile` - Get user profile
 
-## How can I deploy this project?
+### Health Check
+- `GET /api/health` - Server health status
 
-Simply open [Lovable](https://lovable.dev/projects/4dde7c33-594f-4165-a5db-239ceeae63f6) and click on Share -> Publish.
+## Project Structure
 
-## Can I connect a custom domain to my Lovable project?
+```
+abhyas/
+├── src/
+│   ├── components/
+│   │   ├── auth/          # Authentication components
+│   │   ├── dashboard/     # Dashboard components
+│   │   ├── layout/        # Layout components
+│   │   └── ui/           # UI components
+│   ├── contexts/         # React contexts
+│   ├── pages/           # Page components
+│   └── lib/             # Utility functions
+├── server/              # Backend API
+│   ├── server.js        # Main server file
+│   └── package.json     # Backend dependencies
+└── public/              # Static assets
+```
 
-Yes, you can!
+## Development
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Running Both Frontend and Backend
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. **Terminal 1 - Frontend:**
+   ```bash
+   npm run dev
+   ```
+
+2. **Terminal 2 - Backend:**
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+### Building for Production
+
+1. **Frontend:**
+   ```bash
+   npm run build
+   ```
+
+2. **Backend:**
+   ```bash
+   cd server
+   npm start
+   ```
+
+## Environment Variables
+
+### Backend (.env)
+```env
+PORT=5000
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+NODE_ENV=development
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

@@ -24,8 +24,7 @@ export const Sidebar = ({ currentRole, currentView, setCurrentView }) => {
         return [
           { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
           { id: 'users', label: 'User Management', icon: Users },
-          { id: 'courses', label: 'Course Management', icon: FileText },
-          { id: 'settings', label: 'System Settings', icon: Settings },
+          { id: 'courses', label: 'Course Management', icon: FileText }
         ];
       default:
         return [];
