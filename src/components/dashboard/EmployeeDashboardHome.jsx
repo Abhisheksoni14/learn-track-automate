@@ -5,10 +5,9 @@ import { FileText, Calendar, CheckCircle } from 'lucide-react';
 const EmployeeDashboardHome = ({ stats, recentRequests, upcomingSessions, loading, error, onRegister }) => {
   if (loading) return <div className="p-8 text-center text-gray-500">Loading...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
-  console.log(stats)
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
         <StatsCard
           title="Active Requests"
           value={stats?.myTrainingRequests ?? 0}

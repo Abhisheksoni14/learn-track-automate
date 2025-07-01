@@ -17,6 +17,7 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
   const [formError, setFormError] = useState('');
   const [formSuccess, setFormSuccess] = useState('');
   const [registeredSessions, setRegisteredSessions] = useState([]);
+  const [trainerSessions, setTrainerSessions] = useState([]);
 
   // Get userId from localStorage or AuthContext
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -67,9 +68,10 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
       Promise.all([
         api.get(`/api/training/requests/user/${userId}`),
         api.get(`/api/training/sessions/registered/${userId}`),
-        api.get(`/api/training/sessions`)
+        api.get(`/api/training/sessions`),
+        api.get(`/api/training/sessions/as-trainer/${userId}`)
       ])
-        .then(([reqRes, regRes, allSessionsRes]) => {
+        .then(([reqRes, regRes, allSessionsRes, trainerSessionsRes]) => {
           setMyRequests(reqRes.data);
           // Merge session details for registered sessions
           const allSessions = allSessionsRes.data || [];
@@ -78,6 +80,7 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
             return session ? { ...session } : { ...reg };
           });
           setRegisteredSessions(regSessions);
+          setTrainerSessions(trainerSessionsRes.data || []);
         })
         .catch(() => setError('Failed to load your training requests.'))
         .finally(() => setLoading(false));
@@ -130,6 +133,11 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
     }
   };
 
+  const reloadTrainerSessions = async () => {
+    const res = await api.get(`/api/training/sessions/as-trainer/${userId}`);
+    setTrainerSessions(res.data || []);
+  };
+
   let content;
   if (currentView === 'request') {
     content = (
@@ -147,8 +155,10 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
       <EmployeeMyTrainings
         myRequests={myRequests}
         registeredSessions={registeredSessions}
+        trainerSessions={trainerSessions}
         loading={loading}
         error={error}
+        reloadTrainerSessions={reloadTrainerSessions}
       />
     );
   } else if (currentView === 'notifications') {
