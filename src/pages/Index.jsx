@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
@@ -9,8 +9,8 @@ import { AdminDashboard } from '../components/dashboard/AdminDashboard';
 
 const Index = () => {
   const { user, logout } = useAuth();
-  const [currentView, setCurrentView] = useState('dashboard');
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Get user role from the authenticated user
   const userRole = user?.role?.toLowerCase() || 'employee';
@@ -22,19 +22,12 @@ const Index = () => {
     }
   }, [user, navigate]);
 
-  const renderDashboard = () => {
-    switch (userRole) {
-      case 'employee':
-        return <EmployeeDashboard currentView={currentView} setCurrentView={setCurrentView} />;
-      case 'l&d':
-      case 'ld':
-        return <LDDashboard currentView={currentView} setCurrentView={setCurrentView} />;
-      case 'admin':
-        return <AdminDashboard currentView={currentView} setCurrentView={setCurrentView} />;
-      default:
-        return <EmployeeDashboard currentView={currentView} setCurrentView={setCurrentView} />;
+  // Redirect to /dashboard if on root path
+  useEffect(() => {
+    if (location.pathname === '/') {
+      navigate('/dashboard', { replace: true });
     }
-  };
+  }, [location.pathname, navigate]);
 
   if (!user) {
     return null; // Will redirect to login
@@ -42,11 +35,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar 
-        currentRole={userRole} 
-        currentView={currentView} 
-        setCurrentView={setCurrentView} 
-      />
+      <Sidebar currentRole={userRole} />
       <div className="flex-1 flex flex-col">
         <Header 
           user={user}
@@ -54,7 +43,7 @@ const Index = () => {
           onLogout={logout}
         />
         <main className="flex-1 p-6">
-          {renderDashboard()}
+          <Outlet />
         </main>
       </div>
     </div>

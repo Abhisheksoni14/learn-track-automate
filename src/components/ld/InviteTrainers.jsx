@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, UserPlus, Mail, Key } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import api from '../../lib/axios';
 
 const InviteTrainers = ({ onBack }) => {
+  const location = useLocation();
   const [inviteType, setInviteType] = useState('internal');
   const [formData, setFormData] = useState({
     email: '',
@@ -10,10 +13,26 @@ const InviteTrainers = ({ onBack }) => {
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  // Get requestId from query string
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const requestId = params.get('requestId');
+    if (requestId) {
+      // Optionally, fetch request details here to prefill trainingTitle
+      // For now, just show a message or prefill a hidden field
+      setFormData((prev) => ({ ...prev, requestId }));
+    }
+  }, [location.search]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: Integrate with backend API to store invitations
     alert(`${inviteType === 'internal' ? 'Internal' : 'External'} trainer invited successfully!`);
+    if (requestId) {
+      await api.put(`/api/training/requests/${requestId}/trainerstatus`, JSON.stringify("invited"), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
     setFormData({ email: '', trainingTitle: '', sessionDate: '', message: '' });
   };
 
@@ -23,6 +42,9 @@ const InviteTrainers = ({ onBack }) => {
       [e.target.name]: e.target.value
     });
   };
+
+  const params = new URLSearchParams(location.search);
+  const requestId = params.get('requestId');
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -37,6 +59,12 @@ const InviteTrainers = ({ onBack }) => {
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Invite Trainers</h2>
+
+      {requestId && (
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+          <span className="text-blue-700 text-sm font-medium">Inviting trainer for Training Request ID: {requestId}</span>
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         {/* Trainer Type Selection */}

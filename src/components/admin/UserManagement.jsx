@@ -50,12 +50,12 @@ export const UserManagement = () => {
 
   const handleEdit = (user) => {
     setForm({
-      name: user.Name,
-      email: user.Email,
-      department: user.Department,
-      roleId: user.RoleId,
+      name: user.Name || user.name || '',
+      email: user.Email || user.email || '',
+      department: user.Department || user.department || '',
+      roleId: user.RoleId || user.roleId || 2,
     });
-    setEditingId(user.Id);
+    setEditingId(user.Id || user.id);
   };
 
   const handleDelete = async (id) => {
@@ -158,12 +158,12 @@ export const UserManagement = () => {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.Id} className="border-b">
-                  <td className="px-4 py-2">{user.name}</td>
-                  <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">{user.department}</td>
-                  <td className="px-4 py-2">{user.roleId === 1 ? 'Admin' : user.roleId === 2 ? 'Employee' : 'L&D'}</td>
-                  <td className="px-4 py-2">{user.isActive ? 'Active' : 'Inactive'}</td>
+                <tr key={user.Id || user.id} className="border-b">
+                  <td className="px-4 py-2">{user.Name || user.name}</td>
+                  <td className="px-4 py-2">{user.Email || user.email}</td>
+                  <td className="px-4 py-2">{user.Department || user.department}</td>
+                  <td className="px-4 py-2">{(user.RoleId || user.roleId) === 1 ? 'Admin' : (user.RoleId || user.roleId) === 2 ? 'Employee' : 'L&D'}</td>
+                  <td className="px-4 py-2">{user.IsActive !== undefined ? (user.IsActive ? 'Active' : 'Inactive') : (user.isActive ? 'Active' : 'Inactive')}</td>
                   <td className="px-4 py-2 space-x-2">
                     <button
                       className="text-blue-600 hover:underline"
@@ -173,14 +173,14 @@ export const UserManagement = () => {
                     </button>
                     <button
                       className="text-red-600 hover:underline"
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(user.Id || user.id)}
                     >
                       Delete
                     </button>
-                    {user.IsActive && (
+                    {(user.IsActive || user.isActive) && (
                       <button
                         className="text-yellow-600 hover:underline"
-                        onClick={() => handleDeactivate(user.id)}
+                        onClick={() => handleDeactivate(user.Id || user.id)}
                       >
                         Deactivate
                       </button>

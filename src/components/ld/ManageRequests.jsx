@@ -1,21 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../lib/axios';
 import { ArrowLeft, CheckCircle, XCircle, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+// Status order for sorting
+const STATUS_ORDER = { pending: 0, approved: 1, completed: 2, rejected: 3 };
+
+// Status color badge helper
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'pending':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'approved':
+      return 'bg-green-100 text-green-800';
+    case 'completed':
+      return 'bg-blue-100 text-blue-800';
+    case 'rejected':
+      return 'bg-red-100 text-red-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
+  }
+};
 
 const ManageRequests = ({ onBack }) => {
   const [requests, setRequests] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState({});
+  const navigate = useNavigate();
 
+  // Fetch requests on mount
   useEffect(() => {
     setLoading(true);
     api.get('/api/training/requests')
       .then(res => setRequests(res.data))
       .catch(() => setError('Failed to load training requests.'))
       .finally(() => setLoading(false));
+    // Fetch all sessions for session details
+    api.get('/api/training/sessions')
+      .then(res => setSessions(res.data))
+      .catch(() => {});
   }, []);
 
+  // Handle approve/reject
   const handleStatusChange = async (id, status) => {
     setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
@@ -34,29 +62,10 @@ const ManageRequests = ({ onBack }) => {
     }
   };
 
-  const handleView = (req) => {
-    alert(
-      `Title: ${req.title}\nDepartment: ${req.department}\nType: ${req.trainingType}\nStatus: ${req.status}`
-    );
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'approved':
-        return 'bg-green-100 text-green-800';
-      case 'completed':
-        return 'bg-blue-100 text-blue-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
+  // Render
   return (
     <div className="max-w-7xl mx-auto">
+      {/* Back button */}
       <div className="flex items-center space-x-4 mb-6">
         <button
           onClick={onBack}
@@ -67,10 +76,12 @@ const ManageRequests = ({ onBack }) => {
         </button>
       </div>
 
+      {/* Title */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Manage Training Requests</h2>
       </div>
 
+      {/* Requests Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           {loading ? (
@@ -102,61 +113,106 @@ const ManageRequests = ({ onBack }) => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {requests.map((request) => (
-                  <tr key={request.Id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{request.title}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{request.department}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{request.trainingType}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {request.status}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {request.CreatedAt ? new Date(request.CreatedAt).toLocaleDateString() : ''}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button
-                        className="text-blue-600 hover:text-blue-900 inline-flex items-center"
-                        onClick={() => handleView(request)}
-                        title="View"
-                      >
-                        <Eye className="w-4 h-4 mr-1" />
-                        View
-                      </button>
-                      <button
-                        className="text-green-600 hover:text-green-900 inline-flex items-center"
-                        disabled={actionLoading[request.Id] || request.status === 'approved'}
-                        onClick={() => handleStatusChange(request.id, 'approved')}
-                        title="Approve"
-                      >
-                        {actionLoading[request.Id] && request.status !== 'approved' ? (
-                          <span className="mr-1 animate-spin">⏳</span>
-                        ) : (
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                        )}
-                        Approve
-                      </button>
-                      <button
-                        className="text-red-600 hover:text-red-900 inline-flex items-center"
-                        disabled={actionLoading[request.Id] || request.status === 'rejected'}
-                        onClick={() => handleStatusChange(request.id, 'rejected')}
-                        title="Reject"
-                      >
-                        {actionLoading[request.Id] && request.status !== 'rejected' ? (
-                          <span className="mr-1 animate-spin">⏳</span>
-                        ) : (
-                          <XCircle className="w-4 h-4 mr-1" />
-                        )}
-                        Reject
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {requests
+                  .slice()
+                  .sort((a, b) => {
+                    return (STATUS_ORDER[a.status] ?? 99) - (STATUS_ORDER[b.status] ?? 99);
+                  })
+                  .map(({
+                    id,
+                    title,
+                    department,
+                    trainingType,
+                    status,
+                    trainerStatus,
+                    TrainingSessionId,
+                    CreatedAt
+                  }) => {
+                    const safeTrainerStatus = trainerStatus ?? 'none';
+                    return (
+                      <tr key={id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">{title}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{department}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{trainingType}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(status)}`}>
+                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                          </span>
+                          {safeTrainerStatus === 'accepted' && (
+                            <span className="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Trainer Accepted</span>
+                          )}
+                          {safeTrainerStatus === 'invited' && (
+                            <span className="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800">Invited</span>
+                          )}
+                          {status === 'approved' && TrainingSessionId && (() => {
+                            const session = sessions.find(s => (s.id || s.Id) === TrainingSessionId);
+                            return session ? (
+                              <span className="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                Scheduled Session: {session.title || session.Title} ({session.startDate ? new Date(session.startDate).toLocaleDateString() : (session.StartDate ? new Date(session.StartDate).toLocaleDateString() : '')}) by {session.trainer || session.Trainer}
+                              </span>
+                            ) : (
+                              <span className="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Scheduled Session</span>
+                            );
+                          })()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {CreatedAt ? new Date(CreatedAt).toLocaleDateString() : ''}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                          {safeTrainerStatus === 'none' && status === 'pending' && (
+                            <button
+                              className="text-indigo-600 hover:text-indigo-900 inline-flex items-center border border-indigo-200 rounded px-2 py-1 text-xs font-semibold"
+                              onClick={() => {
+                                navigate(`/trainers?requestId=${id}`);
+                              }}
+                            >
+                              Invite Trainer
+                            </button>
+                          )}
+                          {status === 'approved' && !TrainingSessionId && (
+                            <button
+                              className="text-blue-600 hover:text-blue-900 inline-flex items-center border border-blue-200 rounded px-2 py-1 text-xs font-semibold"
+                              onClick={() => navigate(`/calendar?requestId=${id}`)}
+                            >
+                              Schedule Session
+                            </button>
+                          )}
+                          <button
+                            className="text-green-600 hover:text-green-900 inline-flex items-center"
+                            disabled={actionLoading[id] || status === 'approved'}
+                            onClick={() => handleStatusChange(id, 'approved')}
+                            title="Approve"
+                          >
+                            {actionLoading[id] && status !== 'approved' ? (
+                              <span className="mr-1 animate-spin">⏳</span>
+                            ) : (
+                              <CheckCircle className="w-4 h-4 mr-1" />
+                            )}
+                            Approve
+                          </button>
+                          <button
+                            className="text-red-600 hover:text-red-900 inline-flex items-center"
+                            disabled={actionLoading[id] || status === 'rejected'}
+                            onClick={() => handleStatusChange(id, 'rejected')}
+                            title="Reject"
+                          >
+                            {actionLoading[id] && status !== 'rejected' ? (
+                              <span className="mr-1 animate-spin">⏳</span>
+                            ) : (
+                              <XCircle className="w-4 h-4 mr-1" />
+                            )}
+                            Reject
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           )}

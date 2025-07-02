@@ -2,7 +2,7 @@ import React from 'react';
 import { StatsCard } from '../ui/StatsCard';
 import { FileText, Calendar, CheckCircle } from 'lucide-react';
 
-const EmployeeDashboardHome = ({ stats, recentRequests, upcomingSessions, loading, error, onRegister }) => {
+const EmployeeDashboardHome = ({ stats, recentRequests, upcomingSessions, loading, error, onRegister, registeringSessionId }) => {
   if (loading) return <div className="p-8 text-center text-gray-500">Loading...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
   return (
@@ -58,10 +58,10 @@ const EmployeeDashboardHome = ({ stats, recentRequests, upcomingSessions, loadin
                   </div>
                   <button
                     className={`ml-auto px-3 py-1 rounded text-white text-xs font-medium transition-colors ${session.registered ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-                    disabled={session.registered}
+                    disabled={session.registered || registeringSessionId === session.id}
                     onClick={() => onRegister && onRegister(session.id)}
                   >
-                    {session.registered ? 'Registered' : 'Register'}
+                    {session.registered ? 'Registered' : (registeringSessionId === session.id ? 'Registering...' : 'Register')}
                   </button>
                 </div>
               ))

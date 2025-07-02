@@ -9,6 +9,11 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Login from "./pages/Login";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { EmployeeDashboard } from "./components/dashboard/EmployeeDashboard";
+import LDDashboard from "./components/dashboard/LDDashboard";
+import { AdminDashboard } from "./components/dashboard/AdminDashboard";
+import RoleDashboardRouter from "./components/dashboard/RoleDashboardRouter";
+import LDDashboardRouteWrapper from "./components/dashboard/LDDashboardRouteWrapper";
 
 const queryClient = new QueryClient();
 
@@ -21,14 +26,23 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route 
-              path="/" 
-              element={
-                <ProtectedRoute>
-                  <Index />
-                </ProtectedRoute>
-              } 
-            />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            }>
+              <Route path="dashboard" element={<RoleDashboardRouter />} />
+              <Route path="request" element={<EmployeeDashboard currentView="request" />} />
+              <Route path="mytrainings" element={<EmployeeDashboard currentView="mytrainings" />} />
+              <Route path="notifications" element={<EmployeeDashboard currentView="notifications" />} />
+              <Route path="requests" element={<LDDashboardRouteWrapper initialView="requests" />} />
+              <Route path="trainers" element={<LDDashboardRouteWrapper initialView="trainers" />} />
+              <Route path="calendar" element={<LDDashboardRouteWrapper initialView="calendar" />} />
+              <Route path="reports" element={<LDDashboardRouteWrapper initialView="reports" />} />
+              <Route path="users" element={<AdminDashboard currentView="users" />} />
+              <Route path="courses" element={<AdminDashboard currentView="courses" />} />
+              <Route path="*" element={<Navigate to="dashboard" replace />} />
+            </Route>
             <Route path="/unauthorized" element={
               <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 flex items-center justify-center">
                 <div className="text-center">

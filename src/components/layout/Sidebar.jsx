@@ -1,8 +1,8 @@
-
 import { Calendar, FileText, Users, Settings, BarChart3, Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { NavLink } from 'react-router-dom';
 
-export const Sidebar = ({ currentRole, currentView, setCurrentView }) => {
+export const Sidebar = ({ currentRole }) => {
   const getMenuItems = () => {
     switch (currentRole) {
       case 'employee':
@@ -51,19 +51,20 @@ export const Sidebar = ({ currentRole, currentView, setCurrentView }) => {
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (
-            <button
+            <NavLink
               key={item.id}
-              onClick={() => setCurrentView(item.id)}
-              className={cn(
+              to={"/" + item.id}
+              className={({ isActive }) => cn(
                 "w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200",
-                currentView === item.id
+                isActive
                   ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               )}
+              end
             >
               <Icon className="w-5 h-5" />
               <span className="font-medium">{item.label}</span>
-            </button>
+            </NavLink>
           );
         })}
       </nav>

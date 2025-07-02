@@ -127,10 +127,7 @@ abhyas/
    npm run dev
    ```
 
-2. **Terminal 2 - Backend:**
-   ```bash
-   cd server
-   npm run dev
+
    ```
 
 ### Building for Production
@@ -140,19 +137,10 @@ abhyas/
    npm run build
    ```
 
-2. **Backend:**
-   ```bash
-   cd server
-   npm start
-   ```
 
 ## Environment Variables
 
-### Backend (.env)
-```env
-PORT=5000
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-NODE_ENV=development
+
 ```
 
 ## Contributing

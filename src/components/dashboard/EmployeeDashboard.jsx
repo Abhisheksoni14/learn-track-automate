@@ -18,6 +18,7 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
   const [formSuccess, setFormSuccess] = useState('');
   const [registeredSessions, setRegisteredSessions] = useState([]);
   const [trainerSessions, setTrainerSessions] = useState([]);
+  const [registeringSessionId, setRegisteringSessionId] = useState(null);
 
   // Get userId from localStorage or AuthContext
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -41,7 +42,6 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
         api.get(`/api/training/sessions/registered/${userId}`)
       ])
         .then(([statsRes, requestsRes, sessionsRes, registeredRes]) => {
-          console.log(registeredRes.data)
           if (!isMounted) return;
           setStats(statsRes.data || {});
           setRecentRequests(requestsRes.data.slice(0, 5));
@@ -110,26 +110,41 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
       };
       await api.post('/api/training/requests', payload);
       setFormSuccess('Request submitted successfully!');
+      setFormError('');
       setForm({ title: '', department: '', trainingType: '' });
-      setCurrentView('dashboard');
+      setTimeout(() => setCurrentView('dashboard'), 1200);
     } catch (err) {
       setFormError('Failed to submit request.');
+      setFormSuccess('');
     } finally {
       setFormLoading(false);
     }
   };
 
   const handleRegister = async (sessionId) => {
+    if (registeringSessionId) return; // Prevent double click
+    setRegisteringSessionId(sessionId);
     try {
       await api.post(`/api/training/sessions/${sessionId}/register/${userId}`);
-      // Re-fetch registered sessions after registering
-      const registeredRes = await api.get(`/api/training/sessions/registered/${userId}`);
-      setRegisteredSessions(registeredRes.data || []);
-      setUpcomingSessions(prev => prev.map(s =>
-        s.Id === sessionId ? { ...s, registered: true } : s
-      ));
+      // Optimistically update UI
+      setUpcomingSessions(prev =>
+        prev.map(s =>
+          s.id === sessionId
+            ? { ...s, registered: true }
+            : s
+        )
+      );
+      setStats(prev => ({
+        ...prev,
+        mySessionsRegistered: (prev.mySessionsRegistered || 0) + 1
+      }));
+      // Optionally, re-fetch registered sessions if needed
+      // const registeredRes = await api.get(`/api/training/sessions/registered/${userId}`);
+      // setRegisteredSessions(registeredRes.data || []);
     } catch (err) {
       alert('Failed to register for session.');
+    } finally {
+      setRegisteringSessionId(null);
     }
   };
 
@@ -172,6 +187,7 @@ export const EmployeeDashboard = ({ currentView, setCurrentView }) => {
         loading={loading}
         error={error}
         onRegister={handleRegister}
+        registeringSessionId={registeringSessionId}
       />
     );
   }
