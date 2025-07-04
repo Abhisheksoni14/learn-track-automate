@@ -30,11 +30,24 @@ const ManageRequests = ({ onBack }) => {
   const [actionLoading, setActionLoading] = useState({});
   const navigate = useNavigate();
 
+  // Helper to normalize request ID
+  const getRequestId = req => String(req.id ?? req.Id);
+  // Helper to remove duplicates by ID
+  const removeDuplicates = (arr) => {
+    const seen = new Set();
+    return arr.filter(req => {
+      const reqId = getRequestId(req);
+      if (seen.has(reqId)) return false;
+      seen.add(reqId);
+      return true;
+    });
+  };
+
   // Fetch requests on mount
   useEffect(() => {
     setLoading(true);
     api.get('/api/training/requests')
-      .then(res => setRequests(res.data))
+      .then(res => setRequests(removeDuplicates(res.data)))
       .catch(() => setError('Failed to load training requests.'))
       .finally(() => setLoading(false));
     // Fetch all sessions for session details
@@ -47,14 +60,21 @@ const ManageRequests = ({ onBack }) => {
   const handleStatusChange = async (id, status) => {
     setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
-      await api.put(`/api/training/requests/${id}/status`, JSON.stringify(status), {
+      const res = await api.put(`/api/training/requests/${id}/status`, JSON.stringify(status), {
         headers: { 'Content-Type': 'application/json' },
       });
-      setRequests((prev) =>
-        prev.map((req) =>
-          req.id === id ? { ...req, status } : req
-        )
-      );
+      const updatedRequest = {
+        ...res.data,
+        id: res.data.id || res.data.Id, // Always use 'id'
+      };
+      setRequests((prev) => {
+        const updatedId = getRequestId(updatedRequest);
+        const filtered = prev.filter(req => getRequestId(req) !== updatedId);
+        console.log('Updated request:', updatedRequest);
+        console.log('Prev IDs:', prev.map(getRequestId));
+        console.log('Filtered IDs:', filtered.map(getRequestId));
+        return [...filtered, updatedRequest];
+      });
     } catch (err) {
       alert('Failed to update status.');
     } finally {
@@ -183,32 +203,36 @@ const ManageRequests = ({ onBack }) => {
                               Schedule Session
                             </button>
                           )}
-                          <button
-                            className="text-green-600 hover:text-green-900 inline-flex items-center"
-                            disabled={actionLoading[id] || status === 'approved'}
-                            onClick={() => handleStatusChange(id, 'approved')}
-                            title="Approve"
-                          >
-                            {actionLoading[id] && status !== 'approved' ? (
-                              <span className="mr-1 animate-spin">⏳</span>
-                            ) : (
-                              <CheckCircle className="w-4 h-4 mr-1" />
-                            )}
-                            Approve
-                          </button>
-                          <button
-                            className="text-red-600 hover:text-red-900 inline-flex items-center"
-                            disabled={actionLoading[id] || status === 'rejected'}
-                            onClick={() => handleStatusChange(id, 'rejected')}
-                            title="Reject"
-                          >
-                            {actionLoading[id] && status !== 'rejected' ? (
-                              <span className="mr-1 animate-spin">⏳</span>
-                            ) : (
-                              <XCircle className="w-4 h-4 mr-1" />
-                            )}
-                            Reject
-                          </button>
+                          {status === 'pending' && (
+                            <>
+                              <button
+                                className="text-green-600 hover:text-green-900 inline-flex items-center"
+                                disabled={actionLoading[id]}
+                                onClick={() => handleStatusChange(id, 'approved')}
+                                title="Approve"
+                              >
+                                {actionLoading[id] ? (
+                                  <span className="mr-1 animate-spin">⏳</span>
+                                ) : (
+                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                )}
+                                Approve
+                              </button>
+                              <button
+                                className="text-red-600 hover:text-red-900 inline-flex items-center"
+                                disabled={actionLoading[id]}
+                                onClick={() => handleStatusChange(id, 'rejected')}
+                                title="Reject"
+                              >
+                                {actionLoading[id] ? (
+                                  <span className="mr-1 animate-spin">⏳</span>
+                                ) : (
+                                  <XCircle className="w-4 h-4 mr-1" />
+                                )}
+                                Reject
+                              </button>
+                            </>
+                          )}
                         </td>
                       </tr>
                     );
