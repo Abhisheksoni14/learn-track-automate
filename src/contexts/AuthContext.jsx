@@ -72,6 +72,10 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Login error:', error);
+      if(error?.response?.data?.message){
+        return { success: false, error: error.response.data.message };
+      }
+      else
       return { success: false, error: 'Network error' };
     }
   };
